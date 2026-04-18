@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#d97706">
+  <title>Terms — LabShelf</title>
+  <meta name="description" content="The rules for using LabShelf. Kept short and plain.">
+  <meta name="robots" content="index,follow">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script>
+    tailwind.config = { theme: { extend: {
+      colors: { brand:{500:'#f59e0b',600:'#d97706',700:'#b45309'}, canvas:'#fdf8f2', ink:'#1a1917', ink2:'#5b5550', ink3:'#807872' },
+      fontFamily: { sans:['Inter','ui-sans-serif','system-ui','sans-serif'], display:['"DM Serif Display"','Georgia','serif'] }
+    }}}
+  </script>
+  <style>
+    :root { --ink:#1a1917; --ink2:#5b5550; --ink3:#807872; --amber:#d97706; --hair:rgba(26,25,23,.08); --canvas:#fdf8f2; }
+    body { font-family:'Inter',ui-sans-serif,system-ui,sans-serif; color:var(--ink); background:var(--canvas); letter-spacing:-0.01em; -webkit-font-smoothing:antialiased; }
+    .display { font-family:'DM Serif Display',Georgia,serif; font-weight:400; letter-spacing:-0.02em; line-height:1.05; }
+    .prose h2 { font-family:'DM Serif Display',serif; font-size:24px; margin-top:2.25rem; margin-bottom:.5rem; letter-spacing:-0.015em; }
+    .prose p, .prose li { color:var(--ink2); font-size:16px; line-height:1.7; max-width:66ch; }
+    .prose p { margin-bottom:1rem; }
+    .prose ul { margin:.5rem 0 1rem 1.2rem; list-style:disc; }
+    .prose li { margin-bottom:.35rem; }
+    .prose strong { color:var(--ink); font-weight:600; }
+    a.amber { color:var(--amber); }
+    a.amber:hover { color:#b45309; }
+  </style>
+</head>
+<body>
+
+<header class="max-w-3xl mx-auto px-5 sm:px-8 pt-8">
+  <nav class="flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2.5">
+      <span class="w-7 h-7 rounded-md grid place-items-center" style="background:var(--amber);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.31"/><path d="M14 9.3V2"/><path d="M8.5 2h7"/><path d="M14 9.3a6.5 6.5 0 1 1-4 0"/><path d="M5.52 16h12.96"/></svg>
+      </span>
+      <span class="display text-[22px]">LabShelf</span>
+    </a>
+    <a href="/" class="text-[14px] text-ink2 hover:text-ink">← Back home</a>
+  </nav>
+</header>
+
+<main class="max-w-3xl mx-auto px-5 sm:px-8 py-16 sm:py-20 prose">
+  <h1 class="display text-[40px] sm:text-[48px] mb-2">Terms</h1>
+  <p class="text-[13px] text-ink3 uppercase tracking-wider" style="font-size:12px;letter-spacing:.08em;">Last updated: April 2026</p>
+
+  <p class="mt-8">These are the rules for using LabShelf. By purchasing or using it, you agree to them. If anything here is unclear, email <a class="amber" href="mailto:SUPPORT-EMAIL">SUPPORT-EMAIL</a> and we'll explain.</p>
+
+  <h2>What you're buying</h2>
+  <p>A one-time license to install and run LabShelf inside your own Google account. The purchase includes the downloadable files, the setup README, and free updates to the same product for as long as it exists.</p>
+
+  <h2>What a license covers</h2>
+  <ul>
+    <li><strong>One lab per license.</strong> One install per purchase. If you run two separate labs at two institutions, you need two licenses.</li>
+    <li><strong>Unlimited lab members.</strong> Everyone in your lab can use that one install — there is no per-seat limit.</li>
+    <li><strong>Internal use only.</strong> The license is for running LabShelf for your own lab. You may not resell, sublicense, or redistribute the code, or offer LabShelf as a hosted service to third parties.</li>
+    <li><strong>You may modify the code.</strong> Customizing LabShelf for your own lab's needs is fine and encouraged. Modifications stay covered by the same license — they're not for redistribution.</li>
+  </ul>
+
+  <h2>Payments and refunds</h2>
+  <p>Purchases are processed by <strong>Lemon Squeezy</strong>, which acts as the Merchant of Record and handles tax collection for your country. All sales are final: because LabShelf is delivered as a download you keep and can run indefinitely, we do not offer refunds once the product has been delivered. If something is broken or doesn't work as described, email support and we'll make it right — either by fixing it or by sorting out your purchase directly.</p>
+
+  <h2>Your data</h2>
+  <p>LabShelf runs inside your Google account, and your lab's inventory, orders, and feed data stay in your Google Drive. We don't host it, we don't see it, and we can't retrieve it for you. You are responsible for your own backups and for who you share access with. See the <a class="amber" href="/privacy.html">privacy page</a> for details.</p>
+
+  <h2>Updates</h2>
+  <p>We may ship updates to LabShelf from time to time. You get them for free by re-downloading the latest version from your purchase email or account. You are not required to update — your existing install will keep working as long as Google Workspace continues to support what it runs on.</p>
+
+  <h2>No warranty</h2>
+  <p>LabShelf is provided <strong>as is</strong>, without any express or implied warranties, including warranties of merchantability, fitness for a particular purpose, or non-infringement. You use it at your own risk. While we do our best to ship a reliable product, we cannot guarantee it will be free of bugs or suitable for every regulatory context.</p>
+
+  <h2>Limitation of liability</h2>
+  <p>To the maximum extent permitted by law, LabShelf's total liability to you for any claim connected to the product is limited to the amount you paid for the license. We are not liable for indirect, incidental, or consequential damages — including loss of data, lost time, or missed experiments.</p>
+
+  <h2>Changes</h2>
+  <p>These terms may change as the product matures. If we make a material change, we'll note it on this page with a new "last updated" date. Your continued use after a change means you accept the updated version.</p>
+
+  <h2>Contact</h2>
+  <p>Questions: <a class="amber" href="mailto:SUPPORT-EMAIL">SUPPORT-EMAIL</a>.</p>
+</main>
+
+<footer class="max-w-3xl mx-auto px-5 sm:px-8 py-10 border-t" style="border-color:var(--hair);">
+  <div class="flex flex-wrap items-center justify-between gap-4 text-[13.5px] text-ink3">
+    <span>LabShelf</span>
+    <div class="flex items-center gap-5">
+      <a href="/" class="hover:text-ink">Home</a>
+      <a href="/privacy.html" class="hover:text-ink">Privacy</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
