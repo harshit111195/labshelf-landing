@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#d97706">
   <title>LabShelf — Lab inventory that runs inside your Google account</title>
-  <meta name="description" content="A simple, self-hosted lab inventory tracker. Runs on Google Sheets + Apps Script. One-time $49. No servers, no subscription, your data stays in your Drive.">
+  <meta name="description" content="A simple lab inventory tracker that runs inside your Google account. One-time $49. No servers, no subscription, your data stays in your Drive.">
 
   <!-- Open Graph -->
   <meta property="og:title" content="LabShelf — Lab inventory that runs inside your Google account">
-  <meta property="og:description" content="Two files, paste into Google Apps Script, done. One-time $49. Your data stays in your Drive.">
+  <meta property="og:description" content="Two files, paste into Google Sheets, done. One-time $49. Your data stays in your Drive.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://labshelf.com">
   <meta name="twitter:card" content="summary_large_image">
@@ -149,7 +149,7 @@
         Lab inventory that runs <span class="mark">inside your Google account</span>.
       </h1>
       <p class="mt-7 text-[18px] leading-[1.55] text-ink2 max-w-[520px]">
-        Two files, paste into Google Apps Script, done. Track reagents, consumables, and orders. No servers, no logins to manage, no monthly bill. Your data lives in your Drive.
+        Two files, paste into Google Sheets, done. Track reagents, consumables, and orders. No servers, no logins to manage, no monthly bill. Your data lives in your Drive.
       </p>
       <div class="mt-9 flex flex-wrap items-center gap-3">
         <a href="https://labshelf.lemonsqueezy.com/checkout/buy/PRODUCT-ID"
@@ -157,7 +157,6 @@
           Get LabShelf — $49
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
-        <a href="#demo" class="btn btn-ghost">See a live demo</a>
       </div>
       <p class="mt-5 text-[13px] text-ink3">
         Pay once. Unlimited users in your lab. 30-day refund, no questions.
@@ -170,14 +169,14 @@
         <div class="browser tilt-r">
           <div class="browser-bar">
             <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
-            <span class="url">script.google.com/…/lab-inventory</span>
+            <span class="url">labshelf — inventory</span>
           </div>
           <div class="p-5 sm:p-7">
             <div class="flex items-end justify-between mb-5">
               <div>
                 <div class="w-6 h-6 rounded mb-2" style="background: var(--amber);"></div>
                 <div class="display text-[22px]">Lab Inventory</div>
-                <div class="text-[13px] text-ink2 mt-1">Good afternoon, Harshit</div>
+                <div class="text-[13px] text-ink2 mt-1">Good afternoon</div>
               </div>
               <div class="seg-group">
                 <span class="seg-btn active">Inventory</span>
@@ -277,7 +276,7 @@
 <section id="how" class="max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-28 border-t" style="border-color: var(--hair);">
   <div class="max-w-[720px] mb-14">
     <div class="eyebrow mb-4">How it works</div>
-    <h2 class="display text-[36px] sm:text-[48px]">Ten minutes from download to deployed.</h2>
+    <h2 class="display text-[36px] sm:text-[48px]">Ten minutes from download to running.</h2>
     <p class="mt-5 text-[17px] text-ink2">No build tools. No command line. No hosting account. If you can copy text and click Save, you can run LabShelf.</p>
   </div>
 
@@ -285,17 +284,17 @@
     <div class="bg-white rounded-2xl border p-7" style="border-color: var(--hair);">
       <div class="text-[13px] font-medium text-ink3 mb-4 tabular-nums">01</div>
       <h3 class="display text-[22px] mb-2">Download the zip</h3>
-      <p class="text-[15px] text-ink2 leading-[1.6]">After checkout, Lemon Squeezy emails you a zip with <span class="font-mono text-[13.5px]">Code.gs</span>, <span class="font-mono text-[13.5px]">Index.html</span>, and a README.</p>
+      <p class="text-[15px] text-ink2 leading-[1.6]">After checkout, you get an email with the two files and a short README walkthrough.</p>
     </div>
     <div class="bg-white rounded-2xl border p-7" style="border-color: var(--hair);">
       <div class="text-[13px] font-medium text-ink3 mb-4 tabular-nums">02</div>
-      <h3 class="display text-[22px] mb-2">Paste into Apps Script</h3>
-      <p class="text-[15px] text-ink2 leading-[1.6]">Open a blank Google Sheet → Extensions → Apps Script. Paste the two files. Save. The README walks every click.</p>
+      <h3 class="display text-[22px] mb-2">Paste into a Google Sheet</h3>
+      <p class="text-[15px] text-ink2 leading-[1.6]">Open a blank Google Sheet, paste the two files where the README points, then save. Every click is spelled out.</p>
     </div>
     <div class="bg-white rounded-2xl border p-7" style="border-color: var(--hair);">
       <div class="text-[13px] font-medium text-ink3 mb-4 tabular-nums">03</div>
       <h3 class="display text-[22px] mb-2">Share the URL</h3>
-      <p class="text-[15px] text-ink2 leading-[1.6]">Deploy as a web app. You get one URL. Add lab emails to the Users tab. They activate their account and they're in.</p>
+      <p class="text-[15px] text-ink2 leading-[1.6]">Publish it as a link. You get one URL. Add lab emails to the Users tab. They set a password and they're in.</p>
     </div>
   </div>
 
@@ -304,7 +303,6 @@
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg>
       Watch the 3-minute setup
     </a>
-    <a href="DEMO-SHEET-URL" class="text-[14.5px] font-medium" style="color: var(--amber);">Open a live demo lab →</a>
   </div>
 </section>
 
@@ -500,7 +498,7 @@
         <tr>
           <td>Mobile app feel</td>
           <td>Clunky</td>
-          <td class="highlight">Installable, fast</td>
+          <td class="highlight">Phone-ready, fast</td>
           <td>Yes</td>
         </tr>
         <tr>
@@ -522,7 +520,7 @@
           <td>Account required</td>
         </tr>
         <tr>
-          <td>You own the source code</td>
+          <td>You own the code</td>
           <td>N/A</td>
           <td class="highlight">Yes</td>
           <td>No</td>
@@ -550,19 +548,15 @@
   <div class="grid lg:grid-cols-12 gap-12 items-start">
     <div class="lg:col-span-4">
       <div class="w-36 h-36 rounded-full mb-6" style="background: linear-gradient(135deg, #fde68a, #d97706); box-shadow: 0 20px 40px -20px rgba(217,119,6,.4);"></div>
-      <div class="display text-[22px]">Harshit Sahai</div>
-      <div class="text-[14px] text-ink2 mt-1">Postdoctoral researcher<br>Environmental Chemistry</div>
-      <div class="mt-5 flex gap-3">
-        <a href="https://github.com/" class="text-[14px] text-ink2 hover:text-ink underline decoration-ink3 underline-offset-2">GitHub</a>
-        <a href="mailto:SUPPORT-EMAIL" class="text-[14px] text-ink2 hover:text-ink underline decoration-ink3 underline-offset-2">Email</a>
-      </div>
+      <div class="display text-[22px]">A postdoc who got tired of spreadsheets</div>
+      <div class="text-[14px] text-ink2 mt-1">Environmental Chemistry</div>
     </div>
     <div class="lg:col-span-8">
       <div class="eyebrow mb-4">Built by a researcher, for researchers</div>
       <h2 class="display text-[32px] sm:text-[40px] leading-[1.1]">I built LabShelf because my lab was losing reagents in spreadsheets.</h2>
       <div class="mt-7 space-y-5 text-[17px] text-ink2 leading-[1.65] max-w-[62ch]">
         <p>Every lab I've worked in has the same story: the inventory spreadsheet starts clean, gets shared with eight people, and within a term it's a graveyard of deleted formulas, "Sheet1 (copy)", and angry comments.</p>
-        <p>The alternatives are worse. Quartzy's free tier is a funnel for its paid tier. Labguru bundles inventory into an ELN you didn't ask for. Benchling is for biotech with a budget. eLabFTW needs a sysadmin.</p>
+        <p>The alternatives are worse. Quartzy's free tier is a funnel for its paid tier. Labguru bundles inventory into a full notebook you didn't ask for. Benchling is for biotech with a budget. eLabFTW needs an IT team to install it.</p>
         <p>I wanted the smallest thing that works: one Google Sheet, one URL, one login flow, and buttons my lab mates would actually press. That's all LabShelf is. Two files. Paste them and it runs, on Google's free tier, forever.</p>
         <p class="text-ink">If it saves you one Friday afternoon — one "who used the last vial?" — it paid for itself.</p>
       </div>
@@ -589,9 +583,9 @@
       <ul class="mt-7 space-y-3 text-[14.5px]">
         <li class="flex gap-2.5"><span style="color: var(--amber);">✓</span>Unlimited lab members — no per-seat fee</li>
         <li class="flex gap-2.5"><span style="color: var(--amber);">✓</span>Inventory, orders, team feed — all three tabs</li>
-        <li class="flex gap-2.5"><span style="color: var(--amber);">✓</span>Runs on Google's free Apps Script tier</li>
-        <li class="flex gap-2.5"><span style="color: var(--amber);">✓</span>Full source code — modify anything</li>
-        <li class="flex gap-2.5"><span style="color: var(--amber);">✓</span>Free updates when <span class="font-mono text-[13px]">Code.gs</span> ships a new version</li>
+        <li class="flex gap-2.5"><span style="color: var(--amber);">✓</span>Runs on Google's free tier — no hosting bill</li>
+        <li class="flex gap-2.5"><span style="color: var(--amber);">✓</span>Full code included — tweak anything</li>
+        <li class="flex gap-2.5"><span style="color: var(--amber);">✓</span>Free updates whenever a new version ships</li>
         <li class="flex gap-2.5"><span style="color: var(--amber);">✓</span>30-day refund — no forms, no questions</li>
       </ul>
 
@@ -614,7 +608,7 @@
   <div class="reveal">
     <details class="faq">
       <summary>Do my lab members need Google accounts?</summary>
-      <div class="faq-body">No. Only you (the deployer) need a Google account. Your lab mates sign in to LabShelf with an email + password you approve. The app runs under your Google account; they just use it.</div>
+      <div class="faq-body">No. Only you (the person setting it up) need a Google account. Your lab mates sign in with an email + password you approve. The app runs under your Google account; they just use it.</div>
     </details>
 
     <details class="faq">
@@ -624,22 +618,22 @@
 
     <details class="faq">
       <summary>Is this hard to set up?</summary>
-      <div class="faq-body">If you've ever copy-pasted into a Google Doc, you can do this. The included README is a 10-step walkthrough with screenshots, and the 3-minute Loom video covers the whole thing start to finish. Most people finish in under 15 minutes; the slowest step is Google's one-time "authorise this script" dialog.</div>
+      <div class="faq-body">If you've ever copy-pasted into a Google Doc, you can do this. The included README is a 10-step walkthrough with screenshots, and the 3-minute video covers the whole thing start to finish. Most people finish in under 15 minutes; the slowest step is a one-time Google permission prompt.</div>
     </details>
 
     <details class="faq">
-      <summary>What if Google changes Apps Script one day?</summary>
-      <div class="faq-body">Apps Script has been stable for over a decade and is core to Google Workspace — the product isn't going anywhere soon. But you also own the source code, so if Google ever shipped a breaking change, you'd have the option to move the same logic to any JS runtime. That's a real escape hatch, not a marketing one.</div>
+      <summary>What if Google changes how Sheets works one day?</summary>
+      <div class="faq-body">The tools this is built on have been stable for over a decade and are core to Google Workspace — they're not going anywhere soon. But you also own the code, so if Google ever shipped a breaking change, you'd have the option to move the same logic somewhere else. That's a real escape hatch, not a marketing one.</div>
     </details>
 
     <details class="faq">
       <summary>Can I customize the code?</summary>
-      <div class="faq-body">Yes. It's plain HTML, vanilla JavaScript, and straightforward server functions. Add a column. Change a colour. Bolt on a barcode scanner. The README points to the extension points.</div>
+      <div class="faq-body">Yes. It's simple, readable code. Add a column. Change a colour. Plug in a barcode scanner. The README points you to where to start.</div>
     </details>
 
     <details class="faq">
       <summary>How is this different from a free spreadsheet template?</summary>
-      <div class="faq-body">A template is still a spreadsheet — your lab mates are editing cells, breaking formulas, and fighting over the same row. LabShelf adds a proper UI on top: login, mobile-friendly buttons, an order-request workflow, a team feed, and audit timestamps on every change. The data happens to live in a sheet, but nobody touches it directly.</div>
+      <div class="faq-body">A template is still a spreadsheet — your lab mates are editing cells, breaking formulas, and fighting over the same row. LabShelf adds a proper interface on top: login, mobile-friendly buttons, an order-request workflow, a team feed, and a timestamp on every change. The data happens to live in a sheet, but nobody touches it directly.</div>
     </details>
 
     <details class="faq">
@@ -654,7 +648,7 @@
 
     <details class="faq">
       <summary>One license per lab — what does that mean?</summary>
-      <div class="faq-body">One deployment per purchase. Your whole lab uses that one URL — no per-user limit. If you run two separate labs at two institutions, you'd buy two licenses. Bulk pricing for core facilities: drop a line.</div>
+      <div class="faq-body">One setup per purchase. Your whole lab uses that one URL — no per-user limit. If you run two separate labs at two institutions, you'd buy two licenses. Bulk pricing for core facilities: drop a line.</div>
     </details>
   </div>
 </section>
@@ -669,7 +663,6 @@
       Get LabShelf — $49
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
     </a>
-    <a href="#demo" class="btn btn-ghost">See a live demo</a>
   </div>
   <p class="mt-5 text-[13px] text-ink3">30-day refund · Tax included · Checkout by Lemon Squeezy</p>
 </section>
@@ -681,7 +674,7 @@
       <span class="w-5 h-5 rounded grid place-items-center" style="background: var(--amber);">
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.31"/><path d="M14 9.3V2"/><path d="M8.5 2h7"/><path d="M14 9.3a6.5 6.5 0 1 1-4 0"/></svg>
       </span>
-      <span>LabShelf · built by Harshit Sahai</span>
+      <span>LabShelf</span>
     </div>
     <div class="flex items-center gap-5">
       <a href="mailto:SUPPORT-EMAIL" class="hover:text-ink">Support</a>
