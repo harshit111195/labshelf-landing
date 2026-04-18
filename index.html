@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#d97706">
+  <title>LabShelf — Lab inventory that runs inside your Google account</title>
+  <meta name="description" content="A simple, self-hosted lab inventory tracker. Runs on Google Sheets + Apps Script. One-time $49. No servers, no subscription, your data stays in your Drive.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="LabShelf — Lab inventory that runs inside your Google account">
+  <meta property="og:description" content="Two files, paste into Google Apps Script, done. One-time $49. Your data stays in your Drive.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://labshelf.com">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { 50:'#fffbeb',100:'#fef3c7',200:'#fde68a',500:'#f59e0b',600:'#d97706',700:'#b45309',800:'#92400e',900:'#78350f' },
+            canvas: '#fdf8f2',
+            ink: '#1a1917',
+            ink2: '#5b5550',
+            ink3: '#807872',
+          },
+          fontFamily: {
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+            display: ['"DM Serif Display"','Georgia','serif'],
+            mono: ['ui-monospace','SFMono-Regular','Menlo','monospace'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <!-- Lemon Squeezy overlay checkout -->
+  <script src="https://app.lemonsqueezy.com/js/lemon.js" defer></script>
+
+  <style>
+    :root {
+      --ink:#1a1917; --ink2:#5b5550; --ink3:#807872;
+      --amber:#d97706; --amber-h:#b45309; --amber-bg:rgba(217,119,6,.10);
+      --hair:rgba(26,25,23,.08); --hair-2:rgba(26,25,23,.14);
+      --canvas:#fdf8f2; --paper:#ffffff;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; color: var(--ink); background: var(--canvas); letter-spacing: -0.01em; -webkit-font-smoothing: antialiased; }
+    .display { font-family: 'DM Serif Display', Georgia, serif; font-weight: 400; letter-spacing: -0.02em; line-height: 1.02; }
+    .eyebrow { font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--amber); }
+
+    .btn { display:inline-flex; align-items:center; justify-content:center; gap:.5rem; height:3rem; padding: 0 1.25rem; border-radius:.625rem; font-weight:500; font-size:.9375rem; letter-spacing:-0.01em; transition: background-color .15s, color .15s, box-shadow .15s, transform .1s; white-space:nowrap; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn-primary { background: var(--amber); color: #fff; }
+    .btn-primary:hover { background: var(--amber-h); }
+    .btn-ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1px var(--hair-2); }
+    .btn-ghost:hover { background: rgba(0,0,0,.03); }
+
+    /* Browser chrome mockups */
+    .browser { background: #fff; border-radius: 14px; border: 1px solid #e7dfd2; box-shadow: 0 30px 60px -30px rgba(120,80,20,.22), 0 8px 16px -10px rgba(120,80,20,.12); overflow: hidden; }
+    .browser-bar { display:flex; align-items:center; gap:6px; padding: 10px 14px; border-bottom: 1px solid #f1e9d9; background: linear-gradient(180deg, #fdfbf7, #faf6ee); }
+    .dot { width: 10px; height: 10px; border-radius: 999px; }
+    .dot-r { background: #f0b0a8; }
+    .dot-y { background: #f2d38f; }
+    .dot-g { background: #aedda9; }
+    .url { margin-left: 10px; font-size: 11px; color: var(--ink3); font-family: ui-monospace, monospace; padding: 3px 10px; background: #fff; border: 1px solid #f0e7d3; border-radius: 999px; }
+
+    /* Mock UI chips */
+    .chip { display:inline-flex; align-items:center; gap:.375rem; padding:.2rem .55rem; border-radius: 999px; font-size: 11px; font-weight: 500; letter-spacing: -0.01em; }
+    .chip-low { background: #fef2f2; color: #b91c1c; }
+    .chip-ok { background: #ecfdf5; color: #047857; }
+    .chip-ink { background: rgba(217,119,6,.12); color: #92400e; }
+    .chip-neutral { background: rgba(0,0,0,.05); color: var(--ink2); }
+
+    .seg-group { display: inline-flex; gap: 2px; padding: 2px; border-radius: 10px; background: rgba(0,0,0,0.05); }
+    .seg-btn { display:inline-flex; align-items:center; gap:.375rem; height:1.75rem; padding:0 .75rem; border-radius:8px; font-size:12px; font-weight:500; color: var(--ink2); }
+    .seg-btn.active { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+
+    /* Reveal on scroll */
+    .reveal { opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.is-visible { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+
+    /* Comparison table */
+    table.compare { width: 100%; border-collapse: separate; border-spacing: 0; }
+    table.compare th, table.compare td { text-align: left; padding: 14px 16px; font-size: 14px; border-bottom: 1px solid var(--hair); }
+    table.compare thead th { font-weight: 500; color: var(--ink2); background: #fdfaf3; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; }
+    table.compare td:first-child { color: var(--ink2); }
+    table.compare th.highlight { background: rgba(217,119,6,.08); color: #92400e; }
+    table.compare td.highlight { background: rgba(217,119,6,.04); color: var(--ink); font-weight: 500; }
+    table.compare th:first-child { background: transparent; }
+
+    details.faq { border-bottom: 1px solid var(--hair); }
+    details.faq[open] summary { color: var(--ink); }
+    details.faq summary { list-style: none; cursor: pointer; padding: 22px 0; font-family: 'DM Serif Display', serif; font-size: 22px; letter-spacing: -0.015em; display: flex; justify-content: space-between; align-items: center; gap: 1rem; color: var(--ink); }
+    details.faq summary::-webkit-details-marker { display: none; }
+    details.faq summary::after { content: "+"; font-family: 'Inter', sans-serif; font-size: 22px; color: var(--amber); font-weight: 400; transition: transform .2s; }
+    details.faq[open] summary::after { content: "−"; }
+    details.faq .faq-body { padding: 0 0 22px 0; color: var(--ink2); font-size: 15.5px; line-height: 1.65; max-width: 62ch; }
+
+    .tilt-r { transform: rotate(1.8deg); }
+    .tilt-l { transform: rotate(-1.2deg); }
+    @media (max-width: 768px) {
+      .tilt-r, .tilt-l { transform: none; }
+    }
+
+    /* Subtle amber underline marker */
+    .mark { background-image: linear-gradient(transparent 62%, rgba(217,119,6,.35) 62%, rgba(217,119,6,.35) 92%, transparent 92%); background-repeat: no-repeat; padding: 0 .08em; }
+  </style>
+</head>
+
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="max-w-6xl mx-auto px-5 sm:px-8 pt-6 sm:pt-8">
+  <nav class="flex items-center justify-between">
+    <a href="#" class="flex items-center gap-2.5">
+      <span class="w-7 h-7 rounded-md grid place-items-center" style="background: var(--amber);">
+        <!-- flask icon -->
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.31"/><path d="M14 9.3V2"/><path d="M8.5 2h7"/><path d="M14 9.3a6.5 6.5 0 1 1-4 0"/><path d="M5.52 16h12.96"/></svg>
+      </span>
+      <span class="display text-[22px]">LabShelf</span>
+    </a>
+    <div class="flex items-center gap-1 sm:gap-5 text-[14px] text-ink2">
+      <a href="#how" class="hidden sm:inline hover:text-ink">How it works</a>
+      <a href="#compare" class="hidden sm:inline hover:text-ink">Compare</a>
+      <a href="#pricing" class="hidden sm:inline hover:text-ink">Pricing</a>
+      <a href="#faq" class="hidden sm:inline hover:text-ink">FAQ</a>
+      <a href="https://labshelf.lemonsqueezy.com/checkout/buy/PRODUCT-ID"
+         class="lemonsqueezy-button btn btn-primary ml-2" style="height: 2.25rem; padding: 0 .875rem; font-size: 13.5px;">
+        Get LabShelf — $49
+      </a>
+    </div>
+  </nav>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="max-w-6xl mx-auto px-5 sm:px-8 pt-16 sm:pt-24 pb-20 sm:pb-28">
+  <div class="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+    <div class="lg:col-span-6">
+      <div class="eyebrow mb-5">v1.0 · one-time $49 · no subscription</div>
+      <h1 class="display text-[44px] sm:text-[60px] lg:text-[68px]">
+        Lab inventory that runs <span class="mark">inside your Google account</span>.
+      </h1>
+      <p class="mt-7 text-[18px] leading-[1.55] text-ink2 max-w-[520px]">
+        Two files, paste into Google Apps Script, done. Track reagents, consumables, and orders. No servers, no logins to manage, no monthly bill. Your data lives in your Drive.
+      </p>
+      <div class="mt-9 flex flex-wrap items-center gap-3">
+        <a href="https://labshelf.lemonsqueezy.com/checkout/buy/PRODUCT-ID"
+           class="lemonsqueezy-button btn btn-primary">
+          Get LabShelf — $49
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a href="#demo" class="btn btn-ghost">See a live demo</a>
+      </div>
+      <p class="mt-5 text-[13px] text-ink3">
+        Pay once. Unlimited users in your lab. 30-day refund, no questions.
+      </p>
+    </div>
+
+    <!-- Hero screenshot: Inventory tab mock -->
+    <div class="lg:col-span-6 reveal">
+      <div class="relative">
+        <div class="browser tilt-r">
+          <div class="browser-bar">
+            <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
+            <span class="url">script.google.com/…/lab-inventory</span>
+          </div>
+          <div class="p-5 sm:p-7">
+            <div class="flex items-end justify-between mb-5">
+              <div>
+                <div class="w-6 h-6 rounded mb-2" style="background: var(--amber);"></div>
+                <div class="display text-[22px]">Lab Inventory</div>
+                <div class="text-[13px] text-ink2 mt-1">Good afternoon, Harshit</div>
+              </div>
+              <div class="seg-group">
+                <span class="seg-btn active">Inventory</span>
+                <span class="seg-btn">Orders</span>
+                <span class="seg-btn">Feed</span>
+              </div>
+            </div>
+            <div class="space-y-2.5">
+              <!-- Row 1 -->
+              <div class="flex items-center justify-between bg-[#faf7f0] border border-[#f1e9d9] rounded-xl px-4 py-3">
+                <div class="min-w-0">
+                  <div class="text-[14px] font-medium truncate">Anti-β-actin, mouse mAb</div>
+                  <div class="text-[12px] text-ink3 mt-0.5">reagent · Freezer -20 · box A3</div>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                  <span class="chip chip-low">Low stock</span>
+                  <div class="text-[15px] font-mono tabular-nums">2 <span class="text-ink3 text-[12px]">vials</span></div>
+                </div>
+              </div>
+              <!-- Row 2 -->
+              <div class="flex items-center justify-between bg-[#faf7f0] border border-[#f1e9d9] rounded-xl px-4 py-3">
+                <div class="min-w-0">
+                  <div class="text-[14px] font-medium truncate">10 mL serological pipettes</div>
+                  <div class="text-[12px] text-ink3 mt-0.5">consumable · Bench 2 · drawer 1</div>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                  <span class="chip chip-ok">In stock</span>
+                  <div class="text-[15px] font-mono tabular-nums">4 <span class="text-ink3 text-[12px]">boxes</span></div>
+                </div>
+              </div>
+              <!-- Row 3 -->
+              <div class="flex items-center justify-between bg-[#faf7f0] border border-[#f1e9d9] rounded-xl px-4 py-3">
+                <div class="min-w-0">
+                  <div class="text-[14px] font-medium truncate">Tris-HCl buffer, 1 M, pH 8.0</div>
+                  <div class="text-[12px] text-ink3 mt-0.5">reagent · Shelf B · row 2</div>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                  <span class="chip chip-ok">In stock</span>
+                  <div class="text-[15px] font-mono tabular-nums">750 <span class="text-ink3 text-[12px]">mL</span></div>
+                </div>
+              </div>
+              <!-- Row 4 -->
+              <div class="flex items-center justify-between bg-[#faf7f0] border border-[#f1e9d9] rounded-xl px-4 py-3">
+                <div class="min-w-0">
+                  <div class="text-[14px] font-medium truncate">Nitrile gloves, M</div>
+                  <div class="text-[12px] text-ink3 mt-0.5">consumable · Wall rack</div>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                  <span class="chip chip-low">Low stock</span>
+                  <div class="text-[15px] font-mono tabular-nums">1 <span class="text-ink3 text-[12px]">box</span></div>
+                </div>
+              </div>
+              <!-- Row 5 -->
+              <div class="flex items-center justify-between bg-[#faf7f0] border border-[#f1e9d9] rounded-xl px-4 py-3">
+                <div class="min-w-0">
+                  <div class="text-[14px] font-medium truncate">DMSO, cell culture grade</div>
+                  <div class="text-[12px] text-ink3 mt-0.5">reagent · Chem cabinet</div>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                  <span class="chip chip-ok">In stock</span>
+                  <div class="text-[15px] font-mono tabular-nums">3 <span class="text-ink3 text-[12px]">bottles</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Small mobile mock floating below-right -->
+        <div class="hidden md:block absolute -bottom-10 -right-6 w-[220px] browser tilt-l" style="border-radius: 24px;">
+          <div class="p-4" style="background: #fff;">
+            <div class="flex items-center justify-between mb-3">
+              <div class="display text-[16px]">LabShelf</div>
+              <span class="chip chip-ink">Feed</span>
+            </div>
+            <div class="space-y-2">
+              <div class="bg-[#faf7f0] border border-[#f1e9d9] rounded-lg px-2.5 py-2">
+                <div class="text-[10.5px] text-ink3">Reminder · Ana</div>
+                <div class="text-[11px] text-ink leading-snug mt-0.5">Autoclave needs its monthly service on Friday.</div>
+              </div>
+              <div class="bg-[#faf7f0] border border-[#f1e9d9] rounded-lg px-2.5 py-2">
+                <div class="text-[10.5px] text-ink3">Safety · Maria</div>
+                <div class="text-[11px] text-ink leading-snug mt-0.5">New SDS filed for the DMF stock.</div>
+              </div>
+              <div class="bg-[#faf7f0] border border-[#f1e9d9] rounded-lg px-2.5 py-2">
+                <div class="text-[10.5px] text-ink3">Equipment · Tom</div>
+                <div class="text-[11px] text-ink leading-snug mt-0.5">Centrifuge rotor #3 is unbalanced — logged it.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section id="how" class="max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-28 border-t" style="border-color: var(--hair);">
+  <div class="max-w-[720px] mb-14">
+    <div class="eyebrow mb-4">How it works</div>
+    <h2 class="display text-[36px] sm:text-[48px]">Ten minutes from download to deployed.</h2>
+    <p class="mt-5 text-[17px] text-ink2">No build tools. No command line. No hosting account. If you can copy text and click Save, you can run LabShelf.</p>
+  </div>
+
+  <div class="grid md:grid-cols-3 gap-6 reveal">
+    <div class="bg-white rounded-2xl border p-7" style="border-color: var(--hair);">
+      <div class="text-[13px] font-medium text-ink3 mb-4 tabular-nums">01</div>
+      <h3 class="display text-[22px] mb-2">Download the zip</h3>
+      <p class="text-[15px] text-ink2 leading-[1.6]">After checkout, Lemon Squeezy emails you a zip with <span class="font-mono text-[13.5px]">Code.gs</span>, <span class="font-mono text-[13.5px]">Index.html</span>, and a README.</p>
+    </div>
+    <div class="bg-white rounded-2xl border p-7" style="border-color: var(--hair);">
+      <div class="text-[13px] font-medium text-ink3 mb-4 tabular-nums">02</div>
+      <h3 class="display text-[22px] mb-2">Paste into Apps Script</h3>
+      <p class="text-[15px] text-ink2 leading-[1.6]">Open a blank Google Sheet → Extensions → Apps Script. Paste the two files. Save. The README walks every click.</p>
+    </div>
+    <div class="bg-white rounded-2xl border p-7" style="border-color: var(--hair);">
+      <div class="text-[13px] font-medium text-ink3 mb-4 tabular-nums">03</div>
+      <h3 class="display text-[22px] mb-2">Share the URL</h3>
+      <p class="text-[15px] text-ink2 leading-[1.6]">Deploy as a web app. You get one URL. Add lab emails to the Users tab. They activate their account and they're in.</p>
+    </div>
+  </div>
+
+  <div id="demo" class="mt-12 flex flex-wrap items-center gap-4">
+    <a href="LOOM-URL" class="btn btn-ghost">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+      Watch the 3-minute setup
+    </a>
+    <a href="DEMO-SHEET-URL" class="text-[14.5px] font-medium" style="color: var(--amber);">Open a live demo lab →</a>
+  </div>
+</section>
+
+<!-- ============ FEATURES ============ -->
+<section class="max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-28 border-t" style="border-color: var(--hair);">
+  <div class="max-w-[720px] mb-14">
+    <div class="eyebrow mb-4">What's in the box</div>
+    <h2 class="display text-[36px] sm:text-[48px]">Small on purpose. Useful on purpose.</h2>
+    <p class="mt-5 text-[17px] text-ink2">Six features a lab actually uses every day. No ELN modules, no workflow engines, no "stakeholder dashboards."</p>
+  </div>
+
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5 reveal">
+
+    <!-- Feature 1 -->
+    <div class="bg-white rounded-2xl border p-7" style="border-color: var(--hair);">
+      <div class="w-9 h-9 rounded-lg grid place-items-center mb-5" style="background: var(--amber-bg); color: var(--amber);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+      </div>
+      <h3 class="display text-[20px] mb-1.5">Low-stock alerts</h3>
+      <p class="text-[14.5px] text-ink2 leading-[1.6]">Know you're out of primary antibodies <em>before</em> the experiment does. Set a minimum per item; LabShelf flags it red.</p>
+    </div>
+
+    <!-- Feature 2 -->
+    <div class="bg-white rounded-2xl border p-7" style="border-color: var(--hair);">
+      <div class="w-9 h-9 rounded-lg grid place-items-center mb-5" style="background: var(--amber-bg); color: var(--amber);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+      </div>
+      <h3 class="display text-[20px] mb-1.5">Order requests</h3>
+      <p class="text-[14.5px] text-ink2 leading-[1.6]">Anyone in the lab requests an item. The manager marks it ordered, then received. Everyone sees the status. No more "did anyone order the tips?"</p>
+    </div>
+
+    <!-- Feature 3 -->
+    <div class="bg-white rounded-2xl border p-7" style="border-color: var(--hair);">
+      <div class="w-9 h-9 rounded-lg grid place-items-center mb-5" style="background: var(--amber-bg); color: var(--amber);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <h3 class="display text-[20px] mb-1.5">Team feed</h3>
+      <p class="text-[14.5px] text-ink2 leading-[1.6]">Post notes tagged Equipment, Safety, Reminder, or General. Replaces the group chat graveyard for things that actually matter.</p>
+    </div>
+
+    <!-- Feature 4 -->
+    <div class="bg-white rounded-2xl border p-7" style="border-color: var(--hair);">
+      <div class="w-9 h-9 rounded-lg grid place-items-center mb-5" style="background: var(--amber-bg); color: var(--amber);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <h3 class="display text-[20px] mb-1.5">Invite-only access</h3>
+      <p class="text-[14.5px] text-ink2 leading-[1.6]">Email + password login. Lab members don't need Google accounts. Add an email to the Users tab; remove it to revoke access instantly.</p>
+    </div>
+
+    <!-- Feature 5 -->
+    <div class="bg-white rounded-2xl border p-7" style="border-color: var(--hair);">
+      <div class="w-9 h-9 rounded-lg grid place-items-center mb-5" style="background: var(--amber-bg); color: var(--amber);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+      </div>
+      <h3 class="display text-[20px] mb-1.5">Installs on phones</h3>
+      <p class="text-[14.5px] text-ink2 leading-[1.6]">"Add to Home Screen" on iPhone or Android. Opens full-screen, looks like a native app. Perfect for tapping − / + at the bench.</p>
+    </div>
+
+    <!-- Feature 6 -->
+    <div class="bg-white rounded-2xl border p-7" style="border-color: var(--hair);">
+      <div class="w-9 h-9 rounded-lg grid place-items-center mb-5" style="background: var(--amber-bg); color: var(--amber);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15V6"/><path d="M18.5 18a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/><path d="M12 12H3"/><path d="M16 6H3"/><path d="M12 18H3"/></svg>
+      </div>
+      <h3 class="display text-[20px] mb-1.5">Your data, your Drive</h3>
+      <p class="text-[14.5px] text-ink2 leading-[1.6]">Everything lives in one Google Sheet you own. Export any time. Delete any time. We can't see your data — there's no server to see it from.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ SCREENSHOTS GALLERY ============ -->
+<section class="max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-28 border-t" style="border-color: var(--hair);">
+  <div class="max-w-[720px] mb-14">
+    <div class="eyebrow mb-4">Three tabs. That's it.</div>
+    <h2 class="display text-[36px] sm:text-[48px]">Designed to feel calm — even at 4&nbsp;PM on a deadline.</h2>
+  </div>
+
+  <div class="grid lg:grid-cols-2 gap-10 reveal">
+
+    <!-- Orders screenshot -->
+    <div>
+      <div class="browser">
+        <div class="browser-bar">
+          <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
+          <span class="url">labshelf — orders</span>
+        </div>
+        <div class="p-6">
+          <div class="flex items-center justify-between mb-4">
+            <div class="display text-[20px]">Order requests</div>
+            <div class="seg-group">
+              <span class="seg-btn active">Open</span>
+              <span class="seg-btn">Ordered</span>
+              <span class="seg-btn">Received</span>
+            </div>
+          </div>
+          <div class="space-y-2.5">
+            <div class="border rounded-xl p-3.5" style="border-color: var(--hair);">
+              <div class="flex items-center justify-between">
+                <div class="text-[14px] font-medium">qPCR master mix, 2×, 5 mL</div>
+                <span class="chip chip-neutral">Open</span>
+              </div>
+              <div class="text-[12px] text-ink3 mt-1">Requested by maria@lab.example · urgent</div>
+            </div>
+            <div class="border rounded-xl p-3.5" style="border-color: var(--hair);">
+              <div class="flex items-center justify-between">
+                <div class="text-[14px] font-medium">Parafilm, 4-inch roll</div>
+                <span class="chip chip-neutral">Open</span>
+              </div>
+              <div class="text-[12px] text-ink3 mt-1">Requested by tom@lab.example · normal</div>
+            </div>
+            <div class="border rounded-xl p-3.5" style="border-color: var(--hair);">
+              <div class="flex items-center justify-between">
+                <div class="text-[14px] font-medium">Falcon 15 mL tubes · case</div>
+                <span class="chip chip-neutral">Open</span>
+              </div>
+              <div class="text-[12px] text-ink3 mt-1">Requested by ana@lab.example · normal</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="mt-4 text-[14px] text-ink2">Requests, status, and who asked — all stamped automatically.</p>
+    </div>
+
+    <!-- Feed screenshot -->
+    <div>
+      <div class="browser">
+        <div class="browser-bar">
+          <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
+          <span class="url">labshelf — feed</span>
+        </div>
+        <div class="p-6">
+          <div class="flex items-center justify-between mb-4">
+            <div class="display text-[20px]">Lab feed</div>
+            <div class="seg-group">
+              <span class="seg-btn active">All</span>
+              <span class="seg-btn">Safety</span>
+              <span class="seg-btn">Equipment</span>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <div class="border-l-2 pl-4 py-1" style="border-color: var(--amber);">
+              <div class="flex items-center gap-2 text-[12px] text-ink3"><span class="chip chip-ink">Safety</span> · Maria · 2h</div>
+              <p class="text-[14px] mt-1">New SDS filed for the DMF stock — it's in the top drawer of the chem cabinet.</p>
+            </div>
+            <div class="border-l-2 pl-4 py-1" style="border-color: var(--hair-2);">
+              <div class="flex items-center gap-2 text-[12px] text-ink3"><span class="chip chip-neutral">Equipment</span> · Tom · 6h</div>
+              <p class="text-[14px] mt-1">Centrifuge rotor #3 is unbalanced. Logged a service request — don't use it until Friday.</p>
+            </div>
+            <div class="border-l-2 pl-4 py-1" style="border-color: var(--hair-2);">
+              <div class="flex items-center gap-2 text-[12px] text-ink3"><span class="chip chip-neutral">Reminder</span> · Ana · yesterday</div>
+              <p class="text-[14px] mt-1">Autoclave monthly service is this Friday. Schedule your runs accordingly.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="mt-4 text-[14px] text-ink2">Where equipment, safety, and reminder notes live — instead of the group chat.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ COMPARE ============ -->
+<section id="compare" class="max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-28 border-t" style="border-color: var(--hair);">
+  <div class="max-w-[720px] mb-10">
+    <div class="eyebrow mb-4">Honest comparison</div>
+    <h2 class="display text-[36px] sm:text-[48px]">Between the free mess and the $700 SaaS.</h2>
+    <p class="mt-5 text-[17px] text-ink2">Most labs live on Google Sheets until it breaks, then jump to a per-seat subscription they resent. LabShelf sits in the gap.</p>
+  </div>
+
+  <div class="bg-white rounded-2xl border overflow-hidden reveal" style="border-color: var(--hair);">
+    <table class="compare">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Google Sheets</th>
+          <th class="highlight">LabShelf</th>
+          <th>Quartzy / Labguru</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Price for a 5-person lab</td>
+          <td>Free</td>
+          <td class="highlight">$49 once</td>
+          <td>$60–85 / month</td>
+        </tr>
+        <tr>
+          <td>Low-stock alerts</td>
+          <td>No</td>
+          <td class="highlight">Yes</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>Mobile app feel</td>
+          <td>Clunky</td>
+          <td class="highlight">Installable, fast</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>Order request workflow</td>
+          <td>Manual</td>
+          <td class="highlight">Built in</td>
+          <td>Built in</td>
+        </tr>
+        <tr>
+          <td>Where your data lives</td>
+          <td>Your Drive</td>
+          <td class="highlight">Your Drive</td>
+          <td>Their cloud</td>
+        </tr>
+        <tr>
+          <td>Login for lab members</td>
+          <td>Shared sheet</td>
+          <td class="highlight">Email + password, no Google acct</td>
+          <td>Account required</td>
+        </tr>
+        <tr>
+          <td>You own the source code</td>
+          <td>N/A</td>
+          <td class="highlight">Yes</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>Monthly bills to chase</td>
+          <td>0</td>
+          <td class="highlight">0</td>
+          <td>12</td>
+        </tr>
+        <tr>
+          <td>3-year cost (5 users)</td>
+          <td>Free</td>
+          <td class="highlight">$49</td>
+          <td>~$2,400</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="mt-6 text-[13px] text-ink3">Quartzy Standard tier pricing referenced at time of writing. Labguru and SciNote quoted in a similar range for 5-seat labs.</p>
+</section>
+
+<!-- ============ FOUNDER ============ -->
+<section class="max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-28 border-t" style="border-color: var(--hair);">
+  <div class="grid lg:grid-cols-12 gap-12 items-start">
+    <div class="lg:col-span-4">
+      <div class="w-36 h-36 rounded-full mb-6" style="background: linear-gradient(135deg, #fde68a, #d97706); box-shadow: 0 20px 40px -20px rgba(217,119,6,.4);"></div>
+      <div class="display text-[22px]">Harshit Sahai</div>
+      <div class="text-[14px] text-ink2 mt-1">Postdoctoral researcher<br>Environmental Chemistry</div>
+      <div class="mt-5 flex gap-3">
+        <a href="https://github.com/" class="text-[14px] text-ink2 hover:text-ink underline decoration-ink3 underline-offset-2">GitHub</a>
+        <a href="mailto:SUPPORT-EMAIL" class="text-[14px] text-ink2 hover:text-ink underline decoration-ink3 underline-offset-2">Email</a>
+      </div>
+    </div>
+    <div class="lg:col-span-8">
+      <div class="eyebrow mb-4">Built by a researcher, for researchers</div>
+      <h2 class="display text-[32px] sm:text-[40px] leading-[1.1]">I built LabShelf because my lab was losing reagents in spreadsheets.</h2>
+      <div class="mt-7 space-y-5 text-[17px] text-ink2 leading-[1.65] max-w-[62ch]">
+        <p>Every lab I've worked in has the same story: the inventory spreadsheet starts clean, gets shared with eight people, and within a term it's a graveyard of deleted formulas, "Sheet1 (copy)", and angry comments.</p>
+        <p>The alternatives are worse. Quartzy's free tier is a funnel for its paid tier. Labguru bundles inventory into an ELN you didn't ask for. Benchling is for biotech with a budget. eLabFTW needs a sysadmin.</p>
+        <p>I wanted the smallest thing that works: one Google Sheet, one URL, one login flow, and buttons my lab mates would actually press. That's all LabShelf is. Two files. Paste them and it runs, on Google's free tier, forever.</p>
+        <p class="text-ink">If it saves you one Friday afternoon — one "who used the last vial?" — it paid for itself.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section id="pricing" class="max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-28 border-t" style="border-color: var(--hair);">
+  <div class="max-w-[720px] mb-12 text-center mx-auto">
+    <div class="eyebrow mb-4">One price</div>
+    <h2 class="display text-[36px] sm:text-[48px]">$49. Once. Forever.</h2>
+    <p class="mt-5 text-[17px] text-ink2">Less than one box of pipette tips. No per-user, no renewal, no "Pro tier" upsell email in six months.</p>
+  </div>
+
+  <div class="max-w-md mx-auto reveal">
+    <div class="bg-white rounded-2xl border p-8 sm:p-9" style="border-color: var(--hair-2); box-shadow: 0 20px 50px -30px rgba(217,119,6,.25);">
+      <div class="flex items-baseline gap-3">
+        <div class="display text-[56px] leading-none" style="color: var(--ink);">$49</div>
+        <div class="text-[15px] text-ink3 line-through">$588/yr Quartzy</div>
+      </div>
+      <div class="text-[14px] text-ink2 mt-2">One-time payment. Lifetime updates.</div>
+
+      <ul class="mt-7 space-y-3 text-[14.5px]">
+        <li class="flex gap-2.5"><span style="color: var(--amber);">✓</span>Unlimited lab members — no per-seat fee</li>
+        <li class="flex gap-2.5"><span style="color: var(--amber);">✓</span>Inventory, orders, team feed — all three tabs</li>
+        <li class="flex gap-2.5"><span style="color: var(--amber);">✓</span>Runs on Google's free Apps Script tier</li>
+        <li class="flex gap-2.5"><span style="color: var(--amber);">✓</span>Full source code — modify anything</li>
+        <li class="flex gap-2.5"><span style="color: var(--amber);">✓</span>Free updates when <span class="font-mono text-[13px]">Code.gs</span> ships a new version</li>
+        <li class="flex gap-2.5"><span style="color: var(--amber);">✓</span>30-day refund — no forms, no questions</li>
+      </ul>
+
+      <a href="https://labshelf.lemonsqueezy.com/checkout/buy/PRODUCT-ID"
+         class="lemonsqueezy-button btn btn-primary w-full mt-8">
+        Get LabShelf — $49
+      </a>
+      <p class="mt-4 text-center text-[12.5px] text-ink3">Secure checkout by Lemon Squeezy. Tax included for your country.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq" class="max-w-4xl mx-auto px-5 sm:px-8 py-20 sm:py-28 border-t" style="border-color: var(--hair);">
+  <div class="mb-12">
+    <div class="eyebrow mb-4">FAQ</div>
+    <h2 class="display text-[36px] sm:text-[48px]">The questions you probably have.</h2>
+  </div>
+
+  <div class="reveal">
+    <details class="faq">
+      <summary>Do my lab members need Google accounts?</summary>
+      <div class="faq-body">No. Only you (the deployer) need a Google account. Your lab mates sign in to LabShelf with an email + password you approve. The app runs under your Google account; they just use it.</div>
+    </details>
+
+    <details class="faq">
+      <summary>Where does my data actually live?</summary>
+      <div class="faq-body">In a single Google Sheet in your Drive. We have no server. We cannot see your data, and we couldn't hand it over if we tried. You can export it, duplicate it, or delete it — it's yours the same way any of your Sheets are yours.</div>
+    </details>
+
+    <details class="faq">
+      <summary>Is this hard to set up?</summary>
+      <div class="faq-body">If you've ever copy-pasted into a Google Doc, you can do this. The included README is a 10-step walkthrough with screenshots, and the 3-minute Loom video covers the whole thing start to finish. Most people finish in under 15 minutes; the slowest step is Google's one-time "authorise this script" dialog.</div>
+    </details>
+
+    <details class="faq">
+      <summary>What if Google changes Apps Script one day?</summary>
+      <div class="faq-body">Apps Script has been stable for over a decade and is core to Google Workspace — the product isn't going anywhere soon. But you also own the source code, so if Google ever shipped a breaking change, you'd have the option to move the same logic to any JS runtime. That's a real escape hatch, not a marketing one.</div>
+    </details>
+
+    <details class="faq">
+      <summary>Can I customize the code?</summary>
+      <div class="faq-body">Yes. It's plain HTML, vanilla JavaScript, and straightforward server functions. Add a column. Change a colour. Bolt on a barcode scanner. The README points to the extension points.</div>
+    </details>
+
+    <details class="faq">
+      <summary>How is this different from a free spreadsheet template?</summary>
+      <div class="faq-body">A template is still a spreadsheet — your lab mates are editing cells, breaking formulas, and fighting over the same row. LabShelf adds a proper UI on top: login, mobile-friendly buttons, an order-request workflow, a team feed, and audit timestamps on every change. The data happens to live in a sheet, but nobody touches it directly.</div>
+    </details>
+
+    <details class="faq">
+      <summary>What's the refund policy?</summary>
+      <div class="faq-body">30 days, no questions. Email, and the refund goes out. The product is a zip — there's nothing to un-install.</div>
+    </details>
+
+    <details class="faq">
+      <summary>Will this become a subscription later?</summary>
+      <div class="faq-body">No. LabShelf is explicitly a one-time product. If a bigger, hosted version ever exists, it will be a different product under a different name. What you buy today keeps working, and keeps getting updates to the same codebase, forever.</div>
+    </details>
+
+    <details class="faq">
+      <summary>One license per lab — what does that mean?</summary>
+      <div class="faq-body">One deployment per purchase. Your whole lab uses that one URL — no per-user limit. If you run two separate labs at two institutions, you'd buy two licenses. Bulk pricing for core facilities: drop a line.</div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="max-w-4xl mx-auto px-5 sm:px-8 py-20 sm:py-28 border-t text-center" style="border-color: var(--hair);">
+  <h2 class="display text-[40px] sm:text-[56px]">Stop losing reagents in spreadsheets.</h2>
+  <p class="mt-6 text-[18px] text-ink2 max-w-[520px] mx-auto">Two files. Ten minutes. One payment. Your lab — finally on the same page.</p>
+  <div class="mt-9 flex flex-wrap items-center justify-center gap-3">
+    <a href="https://labshelf.lemonsqueezy.com/checkout/buy/PRODUCT-ID"
+       class="lemonsqueezy-button btn btn-primary">
+      Get LabShelf — $49
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </a>
+    <a href="#demo" class="btn btn-ghost">See a live demo</a>
+  </div>
+  <p class="mt-5 text-[13px] text-ink3">30-day refund · Tax included · Checkout by Lemon Squeezy</p>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="max-w-6xl mx-auto px-5 sm:px-8 py-12 border-t" style="border-color: var(--hair);">
+  <div class="flex flex-wrap items-center justify-between gap-4 text-[13.5px] text-ink3">
+    <div class="flex items-center gap-2">
+      <span class="w-5 h-5 rounded grid place-items-center" style="background: var(--amber);">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.31"/><path d="M14 9.3V2"/><path d="M8.5 2h7"/><path d="M14 9.3a6.5 6.5 0 1 1-4 0"/></svg>
+      </span>
+      <span>LabShelf · built by Harshit Sahai</span>
+    </div>
+    <div class="flex items-center gap-5">
+      <a href="mailto:SUPPORT-EMAIL" class="hover:text-ink">Support</a>
+      <a href="#faq" class="hover:text-ink">FAQ</a>
+      <a href="/privacy.html" class="hover:text-ink">Privacy</a>
+      <a href="/terms.html" class="hover:text-ink">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Reveal on scroll (15-line IntersectionObserver, respects reduced motion)
+  (function() {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function(el){ el.classList.add('is-visible'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -80px 0px', threshold: 0.08 });
+    els.forEach(function(el){ io.observe(el); });
+  })();
+</script>
+
+</body>
+</html>

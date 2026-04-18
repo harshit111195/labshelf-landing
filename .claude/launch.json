@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "landing",
+      "runtimeExecutable": "powershell",
+      "runtimeArgs": ["-NoProfile", "-Command", "$listener = [System.Net.HttpListener]::new(); $listener.Prefixes.Add('http://localhost:8766/'); $listener.Start(); Write-Host 'Serving landing on http://localhost:8766'; $root = (Get-Location).Path; while ($listener.IsListening) { $ctx = $listener.GetContext(); $path = $ctx.Request.Url.LocalPath; if ($path -eq '/') { $path = '/index.html' }; $file = Join-Path $root $path.TrimStart('/'); if (Test-Path $file) { $bytes = [System.IO.File]::ReadAllBytes($file); $ctx.Response.ContentLength64 = $bytes.Length; $ctx.Response.OutputStream.Write($bytes,0,$bytes.Length) } else { $ctx.Response.StatusCode = 404 }; $ctx.Response.Close() }"],
+      "port": 8766
+    }
+  ]
+}
