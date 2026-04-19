@@ -144,12 +144,12 @@
 <section class="max-w-6xl mx-auto px-5 sm:px-8 pt-16 sm:pt-24 pb-20 sm:pb-28">
   <div class="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
     <div class="lg:col-span-6">
-      <div class="eyebrow mb-5">v1.0 · one-time $49 · no subscription</div>
+      <div class="eyebrow mb-5">one-time $49 · no subscription</div>
       <h1 class="display text-[44px] sm:text-[60px] lg:text-[68px]">
         Lab inventory that runs <span class="mark">inside your Google account</span>.
       </h1>
       <p class="mt-7 text-[18px] leading-[1.55] text-ink2 max-w-[520px]">
-        Two files, paste into Google Sheets, done. Track reagents, consumables, and orders. No servers, no logins to manage, no monthly bill. Your data lives in your Drive.
+        Low-stock alerts, order requests, and a team feed — in a Google Sheet you own. No servers, no logins to manage, no monthly bill.
       </p>
       <div class="mt-9 flex flex-wrap items-center gap-3">
         <a href="https://labshelf.lemonsqueezy.com/checkout/buy/PRODUCT-ID"
@@ -159,7 +159,7 @@
         </a>
       </div>
       <p class="mt-5 text-[13px] text-ink3">
-        Pay once. Unlimited users in your lab.
+        Pay once. Unlimited users.
       </p>
     </div>
 
@@ -284,7 +284,7 @@
     <div class="bg-white rounded-2xl border p-7" style="border-color: var(--hair);">
       <div class="text-[13px] font-medium text-ink3 mb-4 tabular-nums">01</div>
       <h3 class="display text-[22px] mb-2">Download the zip</h3>
-      <p class="text-[15px] text-ink2 leading-[1.6]">After checkout, you get an email with the two files and a short README walkthrough.</p>
+      <p class="text-[15px] text-ink2 leading-[1.6]">After checkout, you get an email with an Apps Script file (.gs), an HTML template, and a 10-step README walkthrough.</p>
     </div>
     <div class="bg-white rounded-2xl border p-7" style="border-color: var(--hair);">
       <div class="text-[13px] font-medium text-ink3 mb-4 tabular-nums">02</div>
@@ -357,7 +357,7 @@
       <div class="w-9 h-9 rounded-lg grid place-items-center mb-5" style="background: var(--amber-bg); color: var(--amber);">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
       </div>
-      <h3 class="display text-[20px] mb-1.5">Installs on phones</h3>
+      <h3 class="display text-[20px] mb-1.5">Add to Home Screen</h3>
       <p class="text-[14.5px] text-ink2 leading-[1.6]">"Add to Home Screen" on iPhone or Android. Opens full-screen, looks like a native app. Perfect for tapping − / + at the bench.</p>
     </div>
 
@@ -423,7 +423,7 @@
           </div>
         </div>
       </div>
-      <p class="mt-4 text-[14px] text-ink2">Requests, status, and who asked — all stamped automatically.</p>
+      <p class="mt-4 text-[14px] text-ink2">Every request timestamped, attributed, and status-tracked — so nobody asks twice.</p>
     </div>
 
     <!-- Feed screenshot -->
@@ -499,7 +499,7 @@
           <td>Mobile app feel</td>
           <td>Clunky</td>
           <td class="highlight">Phone-ready, fast</td>
-          <td>Yes</td>
+          <td>Native app</td>
         </tr>
         <tr>
           <td>Order request workflow</td>
@@ -521,7 +521,7 @@
         </tr>
         <tr>
           <td>You own the code</td>
-          <td>N/A</td>
+          <td>No</td>
           <td class="highlight">Yes</td>
           <td>No</td>
         </tr>
@@ -584,6 +584,26 @@
   </div>
 
   <div class="reveal">
+    <details class="faq">
+      <summary>Can I try it before paying?</summary>
+      <div class="faq-body">Not yet — a read-only demo Sheet is coming. Meanwhile, the 10-step README and the screenshots above are the full feature tour. If the page doesn't answer a question you have, write us before you buy and we'll answer honestly.</div>
+    </details>
+
+    <details class="faq">
+      <summary>What if I leave the lab — does the license transfer?</summary>
+      <div class="faq-body">The license is per-lab, not per-person — one install per purchase. If you install LabShelf under a shared lab Google account rather than a personal one, it travels with the lab through staff turnover. If you already installed under a personal account, any member can re-install from the same zip into a group account without a second purchase.</div>
+    </details>
+
+    <details class="faq">
+      <summary>What's NOT in LabShelf?</summary>
+      <div class="faq-body">Honest list of what this doesn't do: no barcode scanning, no freezer maps, no expiration auto-alerts, no GxP or 21 CFR Part 11 audit trail. If you need any of those, this isn't the right tool — and we'd rather tell you now than take your $49.</div>
+    </details>
+
+    <details class="faq">
+      <summary>What if it breaks for me?</summary>
+      <div class="faq-body">You have the code — you can inspect it, modify it, or host it anywhere. Email support and we'll fix genuine bugs. There's no refund: you're not renting access, you own the files.</div>
+    </details>
+
     <details class="faq">
       <summary>Do my lab members need Google accounts?</summary>
       <div class="faq-body">No. Only you (the person setting it up) need a Google account. Your lab mates sign in with an email + password you approve. The app runs under your Google account; they just use it.</div>
@@ -656,6 +676,7 @@
       <a href="/terms.html" class="hover:text-ink">Terms</a>
     </div>
   </div>
+  <p class="mt-6 text-[12.5px] text-ink3 max-w-[66ch]">Built by a working environmental-chem postdoc who got tired of reagent hunts.</p>
 </footer>
 
 <script>
