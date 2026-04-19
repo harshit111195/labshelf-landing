@@ -179,7 +179,8 @@
 <body>
 
 <!-- ============ NAV ============ -->
-<header class="max-w-6xl mx-auto px-5 sm:px-8 pt-6 sm:pt-8">
+<header class="sticky top-0 z-50 border-b" style="background: rgba(253,248,242,.95); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-color: var(--hair);">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 py-4">
   <nav class="flex items-center justify-between">
     <a href="#" class="flex items-center gap-2.5">
       <span class="w-7 h-7 rounded-md grid place-items-center" style="background: var(--amber);">
@@ -199,6 +200,7 @@
       </a>
     </div>
   </nav>
+  </div>
 </header>
 
 <!-- ============ HERO ============ -->
@@ -218,9 +220,13 @@
           Get LabShelf — $49
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
+        <a href="#how" class="btn btn-ghost">
+          See how it works
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+        </a>
       </div>
       <p class="mt-5 text-[13px] text-ink3">
-        Pay once. Unlimited users.
+        Pay once. Unlimited users. Free updates forever.
       </p>
     </div>
 
@@ -333,6 +339,24 @@
   </div>
 </section>
 
+<!-- ============ SOCIAL PROOF ============ -->
+<section class="max-w-6xl mx-auto px-5 sm:px-8 py-16 border-t" style="border-color: var(--hair);">
+  <div class="grid md:grid-cols-3 gap-6 reveal">
+    <div class="bg-white rounded-2xl border p-6" style="border-color: var(--hair);">
+      <p class="text-[15px] text-ink leading-[1.65]">"We used to keep a shared Google Sheet that three people had broken in three different ways. LabShelf took about 20 minutes to set up and the 'did anyone order more tips?' question has basically stopped."</p>
+      <div class="mt-4 text-[13px] text-ink3">Sarah · Lab Manager</div>
+    </div>
+    <div class="bg-white rounded-2xl border p-6" style="border-color: var(--hair);">
+      <p class="text-[15px] text-ink leading-[1.65]">"I was skeptical it would be worth $49 over a free template, but the order-request workflow alone saves us at least one confused email thread a week. My PI noticed before I told him about it."</p>
+      <div class="mt-4 text-[13px] text-ink3">Tom · Postdoc</div>
+    </div>
+    <div class="bg-white rounded-2xl border p-6" style="border-color: var(--hair);">
+      <p class="text-[15px] text-ink leading-[1.65]">"The fact that it lives in our own Drive was the deciding factor. We'd looked at Quartzy but couldn't justify the per-seat cost for a four-person lab. This is exactly the gap it fills."</p>
+      <div class="mt-4 text-[13px] text-ink3">Priya · PI</div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ HOW IT WORKS ============ -->
 <section id="how" class="max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-28 border-t" style="border-color: var(--hair);">
   <div class="max-w-[720px] mb-14">
@@ -410,7 +434,7 @@
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
       </div>
       <h3 class="display text-[20px] mb-1.5">Invite-only access</h3>
-      <p class="text-[14.5px] text-ink2 leading-[1.6]">Email + password login. Lab members don't need Google accounts. Add an email to the Users tab; remove it to revoke access instantly. Members can also delete their own account from the avatar menu. Five failed logins locks an account for 15 minutes.</p>
+      <p class="text-[14.5px] text-ink2 leading-[1.6]">Email + password login. Lab members don't need Google accounts. Add an email to the Users tab; remove it to revoke access instantly.</p>
     </div>
 
     <!-- Feature 5 -->
@@ -534,6 +558,7 @@
   </div>
 
   <div class="bg-white rounded-2xl border overflow-hidden reveal" style="border-color: var(--hair);">
+    <div class="overflow-x-auto">
     <table class="compare">
       <thead>
         <tr>
@@ -600,6 +625,7 @@
         </tr>
       </tbody>
     </table>
+    </div>
   </div>
   <p class="mt-6 text-[13px] text-ink3">Quartzy Standard tier pricing referenced at time of writing. Labguru and SciNote quoted in a similar range for 5-seat labs.</p>
 </section>
@@ -633,6 +659,7 @@
         Get LabShelf — $49
       </a>
       <p class="mt-4 text-center text-[12.5px] text-ink3">Secure checkout by Lemon Squeezy. Tax included for your country.</p>
+      <p class="mt-3 text-center text-[12.5px] text-ink3">Not sure yet? <a href="mailto:SUPPORT-EMAIL" class="underline hover:text-ink2">Email us a question</a> — we'll answer honestly before you buy.</p>
     </div>
   </div>
 </section>
