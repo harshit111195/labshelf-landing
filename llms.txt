@@ -1,0 +1,27 @@
+# LabShelf
+
+> A one-time-purchase lab inventory tracker that runs inside the buyer's own Google account as an Apps Script web app backed by a Google Sheet. $49, no subscription, data stays in the buyer's Drive.
+
+## What it is
+LabShelf is distributed as three plain-text files — an Apps Script backend (`Code.txt`), an HTML frontend (`Index.txt`), and a step-by-step `README.txt` — inside a zip emailed after checkout. The buyer deploys their own instance on Google's free Apps Script tier.
+
+## Who it's for
+Small academic and industry labs (typically 2–20 people) that currently track reagents and consumables in a shared Google Sheet and want a real app interface without a per-seat SaaS bill.
+
+## What it does
+- Inventory with low-stock alerts
+- Order request workflow (open / ordered / received)
+- Team feed (equipment / safety / reminder posts)
+- Invite-only email + password login; lab members do not need Google accounts
+- Installable to phone home screen
+
+## What it is NOT
+No barcode scanning. No freezer maps. No expiration auto-alerts. No GxP / 21 CFR Part 11 audit trail.
+
+## Pricing
+$49 one-time, unlimited users per lab, no refunds (source code is delivered).
+
+## Key pages
+- [Home](https://labshelf.com/)
+- [Privacy](https://labshelf.com/privacy.html)
+- [Terms](https://labshelf.com/terms.html)

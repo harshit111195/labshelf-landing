@@ -5,14 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#d97706">
   <title>LabShelf — Lab inventory that runs inside your Google account</title>
-  <meta name="description" content="A simple lab inventory tracker that runs inside your Google account. One-time $49. No servers, no subscription, your data stays in your Drive.">
+  <meta name="description" content="Lab inventory you paste into a Google Sheet you own. Low-stock alerts, order requests, team feed. One-time $49 — no servers, no subscription, no per-seat fees.">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://labshelf.com/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <!-- TODO: add og.png (1200×630) and apple-touch-icon.png (180×180) once designed; then re-add og:image + apple-touch-icon link. -->
 
   <!-- Open Graph -->
+  <meta property="og:site_name" content="LabShelf">
   <meta property="og:title" content="LabShelf — Lab inventory that runs inside your Google account">
   <meta property="og:description" content="Two files, paste into Google Sheets, done. One-time $49. Your data stays in your Drive.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://labshelf.com">
+  <meta property="og:url" content="https://labshelf.com/">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="LabShelf — Lab inventory that runs inside your Google account">
+  <meta name="twitter:description" content="Low-stock alerts, order requests, and a team feed — in a Google Sheet you own. $49 once, no subscription.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -113,6 +120,60 @@
     /* Subtle amber underline marker */
     .mark { background-image: linear-gradient(transparent 62%, rgba(217,119,6,.35) 62%, rgba(217,119,6,.35) 92%, transparent 92%); background-repeat: no-repeat; padding: 0 .08em; }
   </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "LabShelf",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web (Google Apps Script)",
+        "description": "Lab inventory tracker that runs inside your Google account. Low-stock alerts, order requests, and a team feed in a Google Sheet you own.",
+        "url": "https://labshelf.com/",
+        "offers": {
+          "@type": "Offer",
+          "price": "49.00",
+          "priceCurrency": "USD",
+          "category": "One-time purchase"
+        },
+        "featureList": [
+          "Low-stock alerts",
+          "Order requests workflow",
+          "Team feed",
+          "Invite-only access (no Google account for lab members)",
+          "Add to Home Screen",
+          "Data stays in your Google Drive",
+          "Self-serve account deletion"
+        ]
+      },
+      {
+        "@type": "Organization",
+        "name": "LabShelf",
+        "url": "https://labshelf.com/",
+        "description": "LabShelf is built by a working environmental-chemistry postdoc who got tired of reagent hunts."
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {"@type":"Question","name":"Can I try it before paying?","acceptedAnswer":{"@type":"Answer","text":"Not yet — a read-only demo Sheet is coming. Meanwhile, the step-by-step README and the screenshots above are the full feature tour. If the page doesn't answer a question you have, write us before you buy and we'll answer honestly."}},
+          {"@type":"Question","name":"What if I leave the lab — does the license transfer?","acceptedAnswer":{"@type":"Answer","text":"The license is per-lab, not per-person — one install per purchase. If you install LabShelf under a shared lab Google account rather than a personal one, it travels with the lab through staff turnover. If you already installed under a personal account, any member can re-install from the same zip into a group account without a second purchase."}},
+          {"@type":"Question","name":"What's NOT in LabShelf?","acceptedAnswer":{"@type":"Answer","text":"Honest list of what this doesn't do: no barcode scanning, no freezer maps, no expiration auto-alerts, no GxP or 21 CFR Part 11 audit trail. If you need any of those, this isn't the right tool — and we'd rather tell you now than take your $49."}},
+          {"@type":"Question","name":"What if it breaks for me?","acceptedAnswer":{"@type":"Answer","text":"You have the code — you can inspect it, modify it, or host it anywhere. Email support and we'll fix genuine bugs. There's no refund: you're not renting access, you own the files."}},
+          {"@type":"Question","name":"Do my lab members need Google accounts?","acceptedAnswer":{"@type":"Answer","text":"No. Only you (the person setting it up) need a Google account. Your lab mates sign in with an email + password you approve. The app runs under your Google account; they just use it."}},
+          {"@type":"Question","name":"Where does my data actually live?","acceptedAnswer":{"@type":"Answer","text":"In a single Google Sheet in your Drive. We have no server. We cannot see your data, and we couldn't hand it over if we tried. You can export it, duplicate it, or delete it — it's yours the same way any of your Sheets are yours."}},
+          {"@type":"Question","name":"Is this hard to set up?","acceptedAnswer":{"@type":"Answer","text":"If you've ever copy-pasted into a Google Doc, you can do this. The included README is a step-by-step walkthrough, and the 3-minute video covers the whole thing start to finish. Most people finish in under 15 minutes; the slowest step is a one-time Google permission prompt."}},
+          {"@type":"Question","name":"What if Google changes how Sheets works one day?","acceptedAnswer":{"@type":"Answer","text":"The tools this is built on have been stable for over a decade and are core to Google Workspace — they're not going anywhere soon. But you also own the code, so if Google ever shipped a breaking change, you'd have the option to move the same logic somewhere else. That's a real escape hatch, not a marketing one."}},
+          {"@type":"Question","name":"Can I customize the code?","acceptedAnswer":{"@type":"Answer","text":"Yes. It's simple, readable code. Add a column. Change a colour. Plug in a barcode scanner. The README points you to where to start."}},
+          {"@type":"Question","name":"How is this different from a free spreadsheet template?","acceptedAnswer":{"@type":"Answer","text":"A template is still a spreadsheet — your lab mates are editing cells, breaking formulas, and fighting over the same row. LabShelf adds a proper interface on top: login, mobile-friendly buttons, an order-request workflow, a team feed, and a timestamp on every change. The data happens to live in a sheet, but nobody touches it directly."}},
+          {"@type":"Question","name":"Will this become a subscription later?","acceptedAnswer":{"@type":"Answer","text":"No. LabShelf is explicitly a one-time product. If a bigger, hosted version ever exists, it will be a different product under a different name. What you buy today keeps working, and keeps getting updates to the same codebase, forever."}},
+          {"@type":"Question","name":"One license per lab — what does that mean?","acceptedAnswer":{"@type":"Answer","text":"One setup per purchase. Your whole lab uses that one URL — no per-user limit. If you run two separate labs at two institutions, you'd buy two licenses. Bulk pricing for core facilities: drop a line."}}
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 
 <body>
@@ -284,12 +345,12 @@
     <div class="bg-white rounded-2xl border p-7" style="border-color: var(--hair);">
       <div class="text-[13px] font-medium text-ink3 mb-4 tabular-nums">01</div>
       <h3 class="display text-[22px] mb-2">Download the zip</h3>
-      <p class="text-[15px] text-ink2 leading-[1.6]">After checkout, you get an email with an Apps Script file (.gs), an HTML template, and a 10-step README walkthrough.</p>
+      <p class="text-[15px] text-ink2 leading-[1.6]">After checkout, you get a zip with three plain-text files — <code>Code.txt</code>, <code>Index.txt</code>, and a step-by-step <code>README.txt</code> — that double-click open in any text editor.</p>
     </div>
     <div class="bg-white rounded-2xl border p-7" style="border-color: var(--hair);">
       <div class="text-[13px] font-medium text-ink3 mb-4 tabular-nums">02</div>
       <h3 class="display text-[22px] mb-2">Paste into a Google Sheet</h3>
-      <p class="text-[15px] text-ink2 leading-[1.6]">Open a blank Google Sheet, paste the two files where the README points, then save. Every click is spelled out.</p>
+      <p class="text-[15px] text-ink2 leading-[1.6]">Open a blank Google Sheet, paste the two code files where the README points, then save. Every click is spelled out.</p>
     </div>
     <div class="bg-white rounded-2xl border p-7" style="border-color: var(--hair);">
       <div class="text-[13px] font-medium text-ink3 mb-4 tabular-nums">03</div>
@@ -349,7 +410,7 @@
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
       </div>
       <h3 class="display text-[20px] mb-1.5">Invite-only access</h3>
-      <p class="text-[14.5px] text-ink2 leading-[1.6]">Email + password login. Lab members don't need Google accounts. Add an email to the Users tab; remove it to revoke access instantly.</p>
+      <p class="text-[14.5px] text-ink2 leading-[1.6]">Email + password login. Lab members don't need Google accounts. Add an email to the Users tab; remove it to revoke access instantly. Members can also delete their own account from the avatar menu. Five failed logins locks an account for 15 minutes.</p>
     </div>
 
     <!-- Feature 5 -->
@@ -586,7 +647,7 @@
   <div class="reveal">
     <details class="faq">
       <summary>Can I try it before paying?</summary>
-      <div class="faq-body">Not yet — a read-only demo Sheet is coming. Meanwhile, the 10-step README and the screenshots above are the full feature tour. If the page doesn't answer a question you have, write us before you buy and we'll answer honestly.</div>
+      <div class="faq-body">Not yet — a read-only demo Sheet is coming. Meanwhile, the step-by-step README and the screenshots above are the full feature tour. If the page doesn't answer a question you have, write us before you buy and we'll answer honestly.</div>
     </details>
 
     <details class="faq">
@@ -616,7 +677,7 @@
 
     <details class="faq">
       <summary>Is this hard to set up?</summary>
-      <div class="faq-body">If you've ever copy-pasted into a Google Doc, you can do this. The included README is a 10-step walkthrough with screenshots, and the 3-minute video covers the whole thing start to finish. Most people finish in under 15 minutes; the slowest step is a one-time Google permission prompt.</div>
+      <div class="faq-body">If you've ever copy-pasted into a Google Doc, you can do this. The included README is a step-by-step walkthrough, and the 3-minute video covers the whole thing start to finish. Most people finish in under 15 minutes; the slowest step is a one-time Google permission prompt.</div>
     </details>
 
     <details class="faq">
@@ -649,7 +710,7 @@
 <!-- ============ FINAL CTA ============ -->
 <section class="max-w-4xl mx-auto px-5 sm:px-8 py-20 sm:py-28 border-t text-center" style="border-color: var(--hair);">
   <h2 class="display text-[40px] sm:text-[56px]">Stop losing reagents in spreadsheets.</h2>
-  <p class="mt-6 text-[18px] text-ink2 max-w-[520px] mx-auto">Two files. Ten minutes. One payment. Your lab — finally on the same page.</p>
+  <p class="mt-6 text-[18px] text-ink2 max-w-[520px] mx-auto">Two files to paste. Ten minutes. One payment. Your lab — finally on the same page.</p>
   <div class="mt-9 flex flex-wrap items-center justify-center gap-3">
     <a href="https://labshelf.lemonsqueezy.com/checkout/buy/PRODUCT-ID"
        class="lemonsqueezy-button btn btn-primary">
